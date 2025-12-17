@@ -1,0 +1,66 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(to right, #00AAFF, #00FF6C);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.calculator-grid {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  /* La grille fait 4 colonnes */
+  grid-template-columns: repeat(4, 80px); 
+  grid-template-rows: minmax(100px, auto) repeat(5, 80px);
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* Correction : On cible les boutons directement dans la grille */
+.calculator-grid > button {
+  cursor: pointer;
+  font-size: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.75);
+  color: black;
+}
+
+.calculator-grid > button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.span-two {
+  grid-column: span 2; /* Le bouton prend 2 colonnes */
+}
+
+/* Correction : Renommé pour matcher le JSX, et simplifié */
+.output {
+  grid-column: 1 / -1; /* L'écran prend toute la largeur */
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: flex-end; /* Texte en bas */
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 20px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.output .current-operand {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  /* Aligne le texte à droite */
+  width: 100%; 
+  text-align: right; 
+}

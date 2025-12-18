@@ -1,0 +1,35 @@
+image: node:20-alpine
+
+stages:
+  - test
+  - build
+  - deploy
+
+# Job 1 : Vérifie que le code est propre et que les tests passent
+test_app:
+  stage: test
+  script:
+    - npm ci
+    - npm test -- --passWithNoTests # Lance Jest (ignore s'il n'y a pas encore de tests écrits)
+
+# Job 2 : Construit l'application (génère le dossier dist)
+build_app:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/ # On garde le dossier dist pour l'étape suivante
+    expire_in: 1 hour
+
+# Job 3 : Déploie sur Netlify
+deploy_production:
+  stage: deploy
+  script:
+    # On installe l'outil ligne de commande de Netlify
+    - npm install -g netlify-cli
+    # On déploie le dossier dist en production
+    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --dir=dist --prod
+  only:
+    - main # Ce job ne se lance que sur la branche main
